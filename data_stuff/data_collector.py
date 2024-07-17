@@ -4,7 +4,6 @@ import time
 
 import data_stuff.crud as crud
 from data_stuff.database_utils import create_table
-from data_stuff.plane import create_planes, update_planes
 
 import numpy as np
 
