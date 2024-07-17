@@ -1,0 +1,77 @@
+/* Style for Upload specific page accessed from Nav Bar */
+.content h2 {
+    font-size: 300px;
+    color: #474772;
+    font-weight: 600;
+    transition: 0.8s;
+}
+
+h3{
+    font-size: 45px;
+    color: #474772;
+}
+
+h4{
+    font-size: 30px;
+    color: #474772;
+}
+
+h5{
+    font-size: 25px;
+    color: #474772;
+}
+
+.upload-button {
+    font-family: 'Times New Roman', Times, serif;
+    text-decoration: none;
+    display: inline-block;
+    color: #474772;
+    background-color: transparent;
+    font-size: 24px;
+    border: 2px solid #474772;
+    padding: 12px 24px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.upload-button:hover {
+    margin-top: 10px;
+    background-color: #474772;
+    color: blanchedalmond;
+}
+
+.submit-button {
+    font-family: 'Times New Roman', Times, serif;
+    text-decoration: none;
+    display: inline-block;
+    color: #474772;
+    background-color: transparent;
+    font-size: 24px;
+    border: 2px solid #474772;
+    padding: 12px 24px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.submit-button:hover {
+    margin-top: 10px;
+    background-color: #474772;
+    color: blanchedalmond;
+}
+
+.submit-button.loading {
+    background-color: #ccc; 
+    color: #474772; /* change text color when loading*/
+    cursor: default; /* curor unavailable when loading in process */
+}
+
+.loading-overlay.loading-start {
+    display: block;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

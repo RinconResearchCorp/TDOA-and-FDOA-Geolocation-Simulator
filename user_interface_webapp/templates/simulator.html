@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Flight Tracking</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cesium.com/downloads/cesiumjs/releases/1.118/Build/Cesium/Cesium.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/globe.css') }}">
+    <link href="https://cesium.com/downloads/cesiumjs/releases/1.118/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <form id="tdoaForm">
+                  <!-- emitter inputs -->
+                <h3>emitter:</h3>
+                <input type="text" id="emm_lat" placeholder="latitude">
+                <br>
+                <input type="text" id="emm_lon" placeholder="longitude">
+                <br>
+                <input type="text" id="emm_alt" placeholder="altitude (m)">
+                <!-- receiver 1 inputs -->
+                <h3>receiver 1:</h3>
+                <input type="text" id="rec1_lat" placeholder="latitude">
+                <br>
+                <input type="text" id="rec1_lon" placeholder="longitude">
+                <!-- receiver 2 inputs -->
+                <h3>receiver 2:</h3>
+                <input type="text" id="rec2_lat" placeholder="latitude">
+                <br>
+                <input type="text" id="rec2_lon" placeholder="longitude">
+                <!-- receiver 3 inputs -->
+                <h3>receiver 3:</h3>
+                <input type="text" id="rec3_lat" placeholder="latitude">
+                <br>
+                <input type="text" id="rec3_lon" placeholder="longitude">
+                <br>
+                 <!-- buttons to calculate and clear fields -->
+                <button type="button" onclick="submitData()">calculate</button>
+                <button type="button" onclick="clearFields()">clear</button>
+            </form>
+        </div>
+        <div class="content">
+            <div id="cesiumContainer" class="fullSize"></div>
+        </div>
+    </div>
+    <div id="loadingOverlay"><h1>Loading...</h1></div>
+    <div id="toolbar"></div>
+
+    <script type="module" src="{{ url_for('static', filename='scripts/cesium_globe.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            submitData();
+        });
+
+        async function submitData() {
+            console.log("submitting data")
+
+            const emm_lat = document.getElementById('emm_lat').value;
+            const emm_lon = document.getElementById('emm_lon').value;
+            const emm_alt = document.getElementById('emm_alt').value;
+            const rec1_lat = document.getElementById('rec1_lat').value;
+            const rec1_lon = document.getElementById('rec1_lon').value;
+            const rec2_lat = document.getElementById('rec2_lat').value;
+            const rec2_lon = document.getElementById('rec2_lon').value;
+            const rec3_lat = document.getElementById('rec3_lat').value;
+            const rec3_lon = document.getElementById('rec3_lon').value;
+
+            let rec1_alt = 0, rec2_alt = 0, rec3_alt = 0;
+
+            if (validateForm()) {
+                rec1_alt = await fetchElevation(rec1_lat, rec1_lon);
+                rec2_alt = await fetchElevation(rec2_lat, rec2_lon);
+                rec3_alt = await fetchElevation(rec3_lat, rec3_lon);
+            }
+             // prepare TDOA data object
+            const tdoaData = {
+                <!-- emitter inputs -->
+                emitter: [[emm_lat], [emm_lon]],
+                em_altitude: [[emm_alt]],
+                receivers: [
+                    [rec1_lat, rec2_lat, rec3_lat],
+                    [rec1_lon, rec2_lon, rec3_lon]
+                ],
+                rec_altitudes: [rec1_alt, rec2_alt, rec3_alt]
+            };
+
+            fetch('/tdoa-data', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(tdoaData)
+            })
+                .then(response => response.json())
+                .then(plotData => {
+                    Plotly.react('plotly-globe', plotData.data, plotData.layout, { showLink: false });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+        // function to clear all form fields
+        function clearFields() {
+            document.getElementById('emm_lat').value = '';
+            document.getElementById('emm_lon').value = '';
+            document.getElementById('emm_alt').value = '';
+            document.getElementById('rec1_lat').value = '';
+            document.getElementById('rec1_lon').value = '';
+            document.getElementById('rec2_lat').value = '';
+            document.getElementById('rec2_lon').value = '';
+            document.getElementById('rec3_lat').value = '';
+            document.getElementById('rec3_lon').value = '';
+            submitData();
+        }
+         // function to validate form fields
+        function validateForm() {
+            console.log("validating form")
+            const fields = ['emm_lat', 'emm_lon', 'emm_alt', 'rec1_lat', 'rec1_lon', 'rec2_lat', 'rec2_lon', 'rec3_lat', 'rec3_lon'];
+            for (let field of fields) {
+                if (document.getElementById(field).value === '') {
+                    return false;
+                }
+            }
+            return true;
+        }
+        //fetch elevation data
+        async function fetchElevation(latitude, longitude) {
+            const response = await fetch('/get-elevation', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ latitude, longitude })
+            });
+            const data = await response.json();
+            return data.elevation;
+        }
+    </script>
+</body>
+
+</html>
+   

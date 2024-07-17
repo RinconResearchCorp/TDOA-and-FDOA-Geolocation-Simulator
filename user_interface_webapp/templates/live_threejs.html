@@ -1,0 +1,96 @@
+<!-- CURRENTLY NOT IMPLEMENTED FILE AS WE ARE USING CESIUM, NOT THREE.JS -->
+ 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Leaflet on Three.js Globe</title>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/build/three.min.js"></script>
+    <script src="https://unpkg.com/three-globe"></script>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    //css o import the leaflet overlay map
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+        #globe-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: 0;
+        }
+        #leaflet-map {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <div id="globe-container"></div>
+    <div id="leaflet-map"></div>
+
+    <script>
+        // Initialize Leaflet map
+        var leafletMap = L.map('leaflet-map').setView([0, 0], 1); // Initial view centered on (0, 0) with zoom level 1
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(leafletMap);
+
+        // create Three.js scene
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('globe-container').appendChild(renderer.domElement);
+        camera.position.z = 3;
+
+        // create the globe
+        const globe = new THREE.Globe()
+            .globeImageUrl('//unpkg.com/three-globe/example/img/earth-blue-marble.jpg');
+
+        scene.add(globe);
+
+     
+        // convert Leaflet latlng to Three.js coordinates
+        const toVector3 = (lat, lng) => {
+            const phi = (90 - lat) * Math.PI / 180;
+            const theta = (180 - lng) * Math.PI / 180;
+            const x = Math.sin(phi) * Math.cos(theta);
+            const y = Math.cos(phi);
+            const z = Math.sin(phi) * Math.sin(theta);
+            return new THREE.Vector3(x, y, z).multiplyScalar(2); // change multiplier
+        };
+
+        const markerPosition = toVector3(marker.getLatLng().lat, marker.getLatLng().lng);
+        markerPosition.normalize().multiplyScalar(3); // adjust scaling to place marker on globe surface
+        markerPosition.setLength(3);
+        markerPosition.z += 0.2;
+
+        // add marker to Three.js scene
+        const markerObject = new THREE.Mesh(
+            new THREE.SphereGeometry(0.03),
+            new THREE.MeshBasicMaterial({ color: 0xff0000 })
+        );
+        markerObject.position.copy(markerPosition);
+        scene.add(markerObject);
+
+        // render the scene and animation
+        function animate() {
+            requestAnimationFrame(animate);
+            renderer.render(scene, camera);
+        }
+
+        animate();
+    </script>
+</body>
+</html> 

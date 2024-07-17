@@ -1,0 +1,87 @@
+<!-- FILE NOT IN USE/ FILE NOT IMPLEMENTED 
+ ORIGINAL PLOTLY GLOBE - FIRST ITERATION -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Flight Tracking</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        body{
+            font-family: 'monospace';
+            background-color: #1e1e2e;
+            color: #cdd6f4
+        }
+        select{
+            font-family: 'monospace';
+            background-color: #cdd6f4;
+            color: #1e1e2e;
+            border-radius: 10px;
+            border: none;
+            box-shadow: none;
+        }
+        .container {
+            display: flex;
+            height: 100vh;
+            align-items: center;
+        }
+        .content {
+            flex: 3;  /* Adjust the ratio as needed */
+            display: flex;
+            justify-content: center;  /* Align the globe to the right */
+            align-items: center;
+            padding: 20px;
+        }
+        #plotly-globe {
+            width: 750px;
+            height: 750px;
+            align-items: center;
+        }
+        button{
+            position: absolute;
+            font-family: "monospace";
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #cdd6f4;
+            color: #1e1e2e;
+            border: none;
+            box-shadow: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button onclick="window.location.href='/';">home</button>
+        <div class="content">
+            <div id="plotly-globe"></div>
+        </div>
+    </div>
+    </div class="container">
+    <script>
+        function fetchGlobeData() {
+            fetch('/live-data')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Fetched Data:', data);
+                    Plotly.react('plotly-globe', data.data, data.layout, {showLink: false});
+                })
+                .catch(error => console.error('Error: Could not fetch flight data:', error));
+        }
+
+        fetchGlobeData();
+        setInterval(fetchGlobeData, 5000); // Update every 5 seconds
+    </script>
+    </div>
+</body>
+</html>

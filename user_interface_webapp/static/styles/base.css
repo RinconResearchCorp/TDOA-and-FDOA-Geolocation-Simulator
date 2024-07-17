@@ -1,0 +1,210 @@
+/* base style across all subpages of web application - except for the globe.html file*/
+body {
+    font-family: 'Times New Roman', Times, serif;
+    background-color: blanchedalmond;
+    color: #1e1e2e;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* makes the page fill the entire screen that is visible */
+}
+
+header {
+    text-align: center;
+}
+
+.navbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+.navbar ul {
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+    display: inline-block;
+}
+
+.navbar ul li {
+    display: inline-block;
+    margin: 0 10px;
+    list-style: none;
+}
+
+.navbar ul li a {
+    color: #474772; /*color for the nav bar text */
+    text-decoration: none;
+    font-weight: bold; /*makes text bold*/
+    padding: 10px;
+    display: block;
+    font-size: 25px; /* nav bar text size*/
+    transition: 0.8s;
+}
+
+.navbar ul li a:hover{ /* animations for the navigation bar*/
+    -webkit-background-stroke: 2px #474772;
+    background-color: #474772;
+    color: blanchedalmond;
+}
+
+.navbar-logo {
+    max-width: 75px;
+    height: auto;
+}
+
+.dropdown {
+    position: relative;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #474772; /* dropdown background color */
+    color: blanchedalmond;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgb(68, 60, 128); /* shadow of box*/
+    z-index: 1;
+}
+
+.dropdown-content a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: blanchedalmond;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+    -webkit-background-stroke: 2px #474772;
+    background-color: #acacc8;
+}
+
+.back-video{
+    position: flex;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+}
+
+.content { /*homepage title positioning*/
+    text-align: center;
+    margin-top: 300px; /* margin for the main header */
+}
+
+.content h1 {
+    font-size: 137px;
+    color: #474772;
+    font-weight: 600;
+    transition: 0.8s;
+}
+
+
+/* .content h1:hover{    /*text animation for homepage, main header*/
+    /* -webkit-text-stroke: 2px #474772;
+    color: transparent;
+} */ 
+
+.content h2 {
+    font-size: 100px;
+    color: #474772;
+    font-weight: 600;
+    transition: 0.8s;
+}
+
+
+.content a { /* homepage Track Button */
+    text-decoration: none;
+    display: inline-block;
+    color: #474772;
+    background-color: transparent;
+    font-size: 24px;
+    border: 2px solid #474772;
+    padding: 14px 70px;
+    border-radius: 50px;
+    margin-top: 50px;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.content a:hover{ /* homepage Track Button hover animation */
+    -webkit-background-stroke: 2px #474772;
+    background-color: #474772;
+    color: blanchedalmond;
+}
+
+#video-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    min-width: 100%;
+    min-height: 40%;
+    z-index: -1;
+}
+
+/* button customs
+button {
+    background-color: #69793E;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+} */
+
+main {
+    flex: 1; /*main content push footer to bottom of page*/
+}
+
+/* footer only */
+footer {
+    position: relative;
+    text-align: center;
+    padding: 0px;
+    display: flex;
+    border-top: 1px solid black(0, 0, 0);
+    flex-direction: column;
+    align-items: center;
+    border-color: #474772;
+    /* margin-bottom: 5px; */
+    margin-top: auto;
+}
+
+.footer h4 {
+    margin-bottom: 10px; /* Adjust the bottom margin of the "Follow Us:" text */
+}
+.footer-content {
+    display: flex;
+    justify-content: center;
+}
+
+.footer-content ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.footer-content ul li {
+    display: inline-block;
+    margin: 0 5px;
+}
+
+.footer-content ul li img {
+    width: 40px;
+    height: auto;
+    margin-right: 3px;
+    display: inline-block;
+    border: none;
+}
+
+#github,
+#youtube,
+#facebook,
+#instagram
+#linkedin{
+    display: inline-block;
+    margin: 0 5px;  
+}

@@ -1,0 +1,218 @@
+/* Your existing styles */
+
+body {
+    font-family: 'Times New Roman', Times, serif;
+    background-color:#020218; /* base background color for page that flashes before globe renderings */
+    color: #acacc8;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* makes the page fill the entire screen that is visible */
+    height: 100%;
+    margin: 0;
+}
+
+header {
+    text-align: center;
+}
+
+.navbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+.navbar ul {
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+    display: inline-block;
+}
+
+.navbar ul li {
+    display: inline-block;
+    margin: 0 10px;
+    list-style: none;
+}
+
+.navbar ul li a {
+    color: #8e8ebd; /* color for the nav bar text */
+    text-decoration: none;
+    font-weight: bold; /* makes text bold */
+    padding: 10px;
+    display: block;
+    font-size: 25px; /* nav bar text size */
+    transition: 0.8s;
+}
+
+.navbar ul li a:hover { /* animations for the navigation bar */
+    background-color: #474772;
+}
+
+.navbar-logo {
+    max-width: 75px;
+    height: auto;
+}
+
+.dropdown {
+    position: relative;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #474772; /* dropdown background color */
+    color: blanchedalmond;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgb(68, 60, 128); /* shadow of box */
+    z-index: 1;
+}
+
+.dropdown-content a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: blanchedalmond;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+    background-color: #34345d;
+}
+
+#video-bg {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -1;
+    transform: translate(-50%, -50%);
+    background: no-repeat;
+    background-size: cover;
+}
+
+.content { /* homepage title positioning */
+    text-align: center;
+    margin-top: 300px; /* margin for the main header */
+}
+
+#cesiumContainer {
+    width: 100%; /* changes size of Cesium IDE container */
+    height: 100%;
+    margin: 0 auto;
+    padding: 0;
+    display: inline-block;
+}
+
+#toolbar {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: rgba(42, 42, 42, 0.8);
+    color: #8e8ebd;
+    font-size: 25px;
+    padding: 4px;
+    border-radius: 4px;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    gap: 10x;
+}
+
+#toolbar .toggle-container {
+    display: flex;
+    align-items: center;
+    border:none;
+}
+
+#toolbar input {
+    vertical-align: middle;
+    /* padding-top: 2px;
+    padding-bottom: 2px; */
+    border:none;
+}
+
+#toolbar .header {
+    font-weight: bold;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+    margin-left: 10px;
+    border: none;
+}
+
+.switch input {
+    display: none;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: rgb(136, 118, 164);
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #474772;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+/* Optional: Add focus styles for accessibility */
+input:focus + .slider {
+    box-shadow: 0 0 1px #0f7093;
+}
+
+#renderAirplaneButton {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 50px;
+    padding: 10px 25px;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 14px; 
+    margin-right: 10px;  
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+#renderAirplaneButton:hover {
+    background-color: rgba(255, 255, 255, 0.3); /* less transparent on hover */
+    border-color: rgba(255, 255, 255, 0.7); /* Less transparent border on hover */
+}
+
+#loadingOverlay {
+    display: none;
+    position: absolute;
+    background-image: radial-gradient(circle at center, rgba(72, 72, 72, 0.8), rgba(22, 22, 22, 0.8));
+    color: #474772;
+    padding: 1em;
+    border-radius: 4px;
+}

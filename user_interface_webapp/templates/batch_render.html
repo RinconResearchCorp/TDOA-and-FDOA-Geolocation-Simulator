@@ -1,0 +1,64 @@
+<!-- 
+Cesium Globe Generation that renders from the TDOA/FDOA Simulation page 
+This file requires the Cesium script imports as well as globe.css & cesium_globe.js accessed from the "Locate A Flight" drop down in the navigation bar
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>geoleek Globe</title>
+    <script src="https://cesium.com/downloads/cesiumjs/releases/1.118/Build/Cesium/Cesium.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/globe.css') }}">
+    <link href="https://cesium.com/downloads/cesiumjs/releases/1.118/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+</head>
+<body>
+<header>
+    <nav class="navbar">
+        <img src="{{ url_for('static', filename='images/leekylogo.png') }}" class="navbar-logo">
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/what">What is geoleek?</a></li>
+            <li><a href="/who">Who Are We?</a></li>
+            <li><a href="/why">Why geoleek?</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropbtn">Locate A Flight</a>
+                <div class="dropdown-content">
+                    <a href="/live">TDOA/FDOA Simulation</a>
+                    <a href="/upload">Upload ADS-B Data</a>
+                    <a href="/2D-curve-rendering">2-D Curve Rendering</a>
+                </div>
+            </li>
+            <li><a href="/contact">Contact Us</a></li>
+        </ul>
+       
+    </nav>
+    <span>
+        <hr style="border-color: #474772;">
+    </span>
+</header>
+
+<video autoplay loop muted playsinline id="video-bg">
+    <source src="{{ url_for('static', filename='video/space.mp4') }}" type="video/mp4">
+</video>
+
+<div id="cesiumContainer" class="fullSize"></div>
+<div id="loadingOverlay"><h1>Loading...</h1></div>
+<div id="toolbar">
+    <div class="toggle-container">
+        <label id="toggleLabel" for="dayNightToggle">Day Mode</label>
+        <label class="switch">
+            <input type="checkbox" id="dayNightToggle">
+            <span class="slider round"></span>
+        </label>
+    </div>
+</div>
+<script type="text/javascript">
+    var flightData = {{ data | tojson | safe }};
+</script>
+<script type="module" src="{{ url_for('static', filename='scripts/batch_globe.js') }}"></script>
+</body>
+</html>
+
+
+
