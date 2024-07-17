@@ -2,16 +2,16 @@
 Rincon 2024 Intern Project
 Kelly, Elsa, Elizabeth & Logan
 
-# installing requirements
+# Installing requirements
 
 * `pip install -r requirements.txt`
-* Generate a [Google Elevations API key](https://developers.google.com/maps/documentation/elevation/start) and store it in a file called `.env` in the root directory of the project. The file should contain the following text: `GOOGLE_API_KEY=\<your_api_key_here\>`
+* Generate a [Google Elevations API key](https://developers.google.com/maps/documentation/elevation/start) and store it in a file called `.env` in the root directory of the project. The file should contain the following text: `GOOGLE_API_KEY=\<your_api_key_here\>`  -  Google should award $300 in free credits if you're signing up for the first time, so this shouldn't cost money. 
 
 # How to run the application:
-* To run the web application, run `python -m user_interface_webapp.app``
+* To run the web application, run `python -m user_interface_webapp.app`
 
-# Content Descriptions:
-`
+# File Descriptions:
+```
 data_stuff/ # contains database logic for storing live data from opensky api if activated
 ├── crud.py             # create read update delete functions for database
 ├── data_collector.py   # collects live data from opensky api
@@ -38,8 +38,7 @@ user_interface_webapp/  # contains all frontend, server, and backend logic
 │   ├── video           # video files
 ├── templates           # html templates
 ├── app.py              # main file to run the web application  
-
-`
+```
 
 
 # How to collect data from opensky api for /live-data endpoint
@@ -49,4 +48,5 @@ Note that as of now, this is no longer necessary for the webapp to run, but one 
 * `pip install -e opensky-api/`
 * Follow postgres install instructions in `/flight_data/README.md`
 * Update the user and password information in `data_stuff/settings.py` to match your postgres installation
-* run `python -m data_stuff.data_collector &` in the background to begin filling your database with live flight data
+* Run `python -m data_stuff.data_collector &` in the background to begin filling your database with live flight data
+* Sending a get request to the /live-data endpoint should yield a json file containing the updated state of the table. 
